@@ -11,9 +11,16 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors({
-  origin: true,
-  credentials: true
+  origin: (origin, callback) => {
+    if (!origin || origin === process.env.FRONTEND_URL) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
