@@ -6,20 +6,25 @@ const BackEndUrl = import.meta.env.VITE_BACKEND_URL;
 export default function FeaturedProducts() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [refresh, setRefresh] = useState(0);
 
     useEffect(() => {
         const getItems = async () => {
+            setLoading(true);
+            setError(false)
             try {
                 const item = await api.get(`${BackEndUrl}/api/products/featured`);
                 setItems(item.data.products);
             } catch (error) {
                 console.log(error);
+                setError(true)
             } finally {
                 setLoading(false);
             }
         };
         getItems();
-    }, []);
+    }, [refresh]);
 
     return (
         <section className="bg-[#0C0C0C] text-[#EEEEEE] px-6 md:px-20 py-16 border-t border-[#481E14]">
@@ -43,6 +48,7 @@ export default function FeaturedProducts() {
                                 alt={code}
                                 className="w-full h-auto object-cover rounded-t-xl"
                                 loading="lazy"
+                                onError={(e) => { e.target.src = 'images/img_placeholder.webp'; }}
                             />
                             <div className="p-4">
                                 <h3 className="text-lg font-bold text-[#F2613F] mb-1">Code: {code}</h3>
@@ -58,6 +64,18 @@ export default function FeaturedProducts() {
                         </div>
                     ))}
             </div>
+
+            {error && (
+                <div className="text-center mt-10">
+                    <p className="text-red-500 mb-4">Failed to load featured Collections.</p>
+                    <button
+                        onClick={() => setRefresh(prev => prev + 1)}
+                        className="px-5 py-2 rounded bg-[#9B3922] hover:bg-[#F2613F] text-white transition"
+                    >
+                        Retry
+                    </button>
+                </div>
+            )}
 
             <div className="mt-10 text-center">
                 <a

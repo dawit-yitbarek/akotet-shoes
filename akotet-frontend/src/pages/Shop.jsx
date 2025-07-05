@@ -24,6 +24,7 @@ export default function Shop() {
     useEffect(() => {
         const getItems = async () => {
             setLoading(true)
+            setError(false)
             try {
                 const response = await api.get(`${BackEndUrl}/api/products`)
                 setItems(response.data.result);
@@ -99,6 +100,7 @@ export default function Shop() {
                                     src={image_url}
                                     alt={code}
                                     className="w-full h-auto rounded-t-xl object-cover"
+                                    onError={(e) => { e.target.src = '/images/img_placeholder.webp'; }}
                                 />
                                 <div className="p-4">
                                     <h3 className="text-lg font-bold text-[#F2613F] mb-1">Code: {code}</h3>
@@ -113,7 +115,7 @@ export default function Shop() {
                                 </div>
                             </div>
                         ))
-                        : ( !error &&
+                        : (!error &&
                             <p className="text-center text-gray-400 col-span-full mt-10">
                                 No shoes found for the selected filters.
                             </p>

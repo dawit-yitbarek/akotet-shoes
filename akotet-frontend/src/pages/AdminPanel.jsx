@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Products from '../components/Products';
 import UploadImage from '../components/UploadImage'
 import AddProduct from '../components/AddProduct'
 import { TableSkeletonRow } from '../components/SkeletonPlaceholder';
@@ -23,6 +22,7 @@ export default function AdminPanel() {
     useEffect(() => {
         const getItems = async () => {
             setLoading(true)
+            setError(false)
             try {
                 const response = await api.get(`${BackEndUrl}/api/products`)
                 setProducts(response.data.result);
@@ -119,7 +119,10 @@ export default function AdminPanel() {
                             : filteredProducts.map((p) => (
                                 <tr key={p.id} className="border-b border-[#1A1A1A]">
                                     <td className="p-2">
-                                        <img src={p.image_url} alt={p.code} className="h-12 w-12 object-cover rounded" />
+                                        <img
+                                            src={p.image_url} alt={p.code}
+                                            className="h-12 w-12 object-cover rounded" 
+                                            onError={(e) => { e.target.src = '/images/img_placeholder.webp'; }} />
                                     </td>
                                     <td className="p-2">{p.code}</td>
                                     <td className="p-2">{p.price} ETB</td>

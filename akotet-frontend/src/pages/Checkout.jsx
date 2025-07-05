@@ -15,7 +15,7 @@ const Checkout = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [fetchError, setFetchError] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [refresh, setRefesh] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
 
@@ -83,17 +83,21 @@ const Checkout = () => {
 
           <div className="grid md:grid-cols-2 gap-10">
             {/* Product Summary */}
-            <div className="bg-[#1A1A1A] p-6 rounded-xl border border-[#481E14]">
+            <div className="bg-[#1A1A1A] rounded-xl border border-[#481E14]">
               <img
                 src={product.image_url}
                 alt={product.code}
-                className="w-full h-64 object-cover rounded mb-4"
+                className="w-full h-auto object-cover rounded mb-2"
+                onError={(e) => { e.target.src = '/images/img_placeholder.webp'; }}
               />
-              <h3 className="text-xl font-bold text-[#F2613F] mb-1">
-                Code: {product.code}
-              </h3>
-              <p className="mb-1">Price: {product.price} ETB</p>
-              <p>Size: {product.size}</p>
+
+              <div className='p-6'>
+                <h3 className="text-xl font-bold text-[#F2613F] mb-1">
+                  Code: {product.code}
+                </h3>
+                <p className="mb-1">Price: {product.price} ETB</p>
+                <p>Size: {product.size}</p>
+              </div>
             </div>
 
             {/* Customer Form */}

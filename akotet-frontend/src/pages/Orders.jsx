@@ -14,6 +14,7 @@ export default function TrackOrders() {
     const fetchOrders = async (status) => {
         try {
             setLoading(true);
+            setError(false)
             const res = await api.get(`${BackEndUrl}/api/orders?status=${status}`);
             setOrders(res.data.orders);
         } catch (error) {
@@ -78,7 +79,8 @@ export default function TrackOrders() {
                             <img
                                 src={order.image_url}
                                 alt={order.product_code}
-                                className="w-full h-48 object-cover"
+                                className="w-full h-auto object-cover"
+                                onError={(e) => { e.target.src = '/images/img_placeholder.webp'; }}
                             />
                             <div className="p-4 space-y-2">
                                 <h3 className="text-[#F2613F] font-semibold">Code: {order.product_code}</h3>
@@ -109,7 +111,7 @@ export default function TrackOrders() {
                 <div className="text-center mt-10">
                     <p className="text-red-500 mb-4">Failed to load products.</p>
                     <button
-                        onClick={() => setRefreshProduct(prev => prev + 1)}
+                        onClick={() => fetchOrders(activeTab)}
                         className="px-4 py-2 bg-[#9B3922] hover:bg-[#F2613F] text-white rounded"
                     >
                         Retry
