@@ -5,10 +5,14 @@ dotenv.config();
 const { Pool } = pkg;
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+  host: 'db.egcbirmaycyqorbyzlau.supabase.co',
+  port: 5432,
+  user: 'postgres',
+  password: 'Dawit@#2005',
+  database: 'postgres',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 export default pool;
