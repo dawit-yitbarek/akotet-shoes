@@ -14,6 +14,7 @@ export default function FeaturedProducts() {
             setLoading(true);
             setError(false)
             try {
+                console.log("Checking backend url ", BackEndUrl)
                 const item = await api.get(`${BackEndUrl}/api/products/featured`);
                 setItems(item.data.products);
             } catch (error) {
