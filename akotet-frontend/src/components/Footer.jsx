@@ -65,7 +65,7 @@ export default function Footer() {
         <p className="mt-2">
           Developed by{' '}
           <a
-            href="https://t.me/Davidyz17"
+            href="https://www.daviddeveloper.site"
             className="text-[#F2613F] hover:underline"
             target="_blank"
           >
