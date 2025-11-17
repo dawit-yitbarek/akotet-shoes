@@ -69,7 +69,7 @@ export default function Footer() {
             className="text-[#F2613F] hover:underline"
             target="_blank"
           >
-            David – Full Stack Web Developer
+            Dawit – Full Stack Web Developer
           </a>
         </p>
       </div>
