@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import UploadImage from '../components/UploadImage'
 import AddProduct from '../components/AddProduct'
 import { TableSkeletonRow } from '../components/SkeletonPlaceholder';
+import Signin from '../components/Signin';
 import api from '../components/Api';
 const BackEndUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function AdminPanel() {
     const navigate = useNavigate();
+    const [admin, setAdmin] = useState(false);
     const [products, setProducts] = useState([]);
     const [searchCode, setSearchCode] = useState('');
     const [editProduct, setEditProduct] = useState(null);
@@ -20,6 +22,13 @@ export default function AdminPanel() {
     const [error, setError] = useState(false)
 
     useEffect(() => {
+        const adminData = localStorage.getItem('isAdmin');
+        if (adminData === "true") {
+            setAdmin(true);
+        } else {
+            setAdmin(false);
+            return;
+        }
         const getItems = async () => {
             setLoading(true)
             setError(false)
@@ -74,6 +83,8 @@ export default function AdminPanel() {
         p.code.toString().includes(searchCode)
     );
 
+    if (!admin) return <Signin />;
+
     return (
         <section className="bg-[#0C0C0C] text-[#EEEEEE] px-6 md:px-20 py-16 min-h-screen">
 
@@ -84,6 +95,13 @@ export default function AdminPanel() {
                     className="bg-[#9B3922] hover:bg-[#F2613F] text-white px-4 py-2 rounded-md"
                 >
                     View Orders
+                </button>
+
+                <button
+                    onClick={() => { localStorage.removeItem('isAdmin'); window.location.reload(); }}
+                    className="bg-[#9B3922] hover:bg-[#F2613F] text-white px-4 py-2 rounded-md"
+                >
+                    Logout
                 </button>
             </div>
 
@@ -121,7 +139,7 @@ export default function AdminPanel() {
                                     <td className="p-2">
                                         <img
                                             src={p.image_url} alt={p.code}
-                                            className="h-12 w-12 object-cover rounded" 
+                                            className="h-12 w-12 object-cover rounded"
                                             onError={(e) => { e.target.src = '/images/img_placeholder.webp'; }} />
                                     </td>
                                     <td className="p-2">{p.code}</td>

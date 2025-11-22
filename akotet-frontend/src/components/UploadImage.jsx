@@ -19,7 +19,7 @@ export default function UploadImage({ setImageUrl, resetTrigger, status }) {
             return;
         }
 
-        setPreview(URL.createObjectURL(file)); // Show preview
+        setPreview(URL.createObjectURL(file));
         const formData = new FormData();
         formData.append('image', file);
 
@@ -32,8 +32,8 @@ export default function UploadImage({ setImageUrl, resetTrigger, status }) {
             setImageUrl(res.data.imageUrl);
             setUploadSuccess(true);
         } catch (error) {
-            fileInputRef.current.value = ''; // Reset file input
-            setPreview(null); // Clear preview
+            fileInputRef.current.value = '';
+            setPreview(null);
             setUploadSuccess(false);
             setUploadError(true);
             console.error('Error uploading image:', error);
@@ -48,7 +48,7 @@ export default function UploadImage({ setImageUrl, resetTrigger, status }) {
         setUploadSuccess(false);
         setPreview(null);
         if (fileInputRef.current) {
-            fileInputRef.current.value = ''; // ✅ This resets the <input type="file" />
+            fileInputRef.current.value = '';
         }
 
     }, [resetTrigger]);
