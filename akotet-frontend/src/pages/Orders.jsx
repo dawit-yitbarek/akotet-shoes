@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { OrderSkeleton } from '../components/SkeletonPlaceholder'
+import { OrderSkeleton } from '../components/SkeletonPlaceholder';
+import Signin from '../components/Signin';
 import api from '../components/Api';
 const BackEndUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -10,6 +11,7 @@ export default function TrackOrders() {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [approving, setApproving] = useState(false);
     const [error, setError] = useState(false);
+    const [admin, setAdmin] = useState(false);
 
     const fetchOrders = async (status) => {
         try {
@@ -26,6 +28,13 @@ export default function TrackOrders() {
     };
 
     useEffect(() => {
+        const adminData = localStorage.getItem('isAdmin');
+        if (adminData === "true") {
+            setAdmin(true);
+        } else {
+            setAdmin(false);
+            return;
+        }
         fetchOrders(activeTab);
     }, [activeTab]);
 
@@ -42,6 +51,8 @@ export default function TrackOrders() {
             setApproving(false);
         }
     };
+
+    if (!admin) return <Signin />;
 
     return (
         <section className="bg-[#0C0C0C] text-[#EEEEEE] min-h-screen px-6 md:px-20 py-16">
