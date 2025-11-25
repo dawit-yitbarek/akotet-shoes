@@ -6,50 +6,113 @@ Akotet Shoes is a premium leather shoe e-commerce platform featuring a dark, hig
 
 ## 👞 Features
 
-### 🛍️ User Features
-- Browse premium 100% leather shoes  
-- Dark, elegant UI focusing on brand identity  
-- Search products by shoe code  
-- Filter by shoe size  
-- Sort products by price  
-- Place orders with full Chapa online payment integration  
-- Responsive and mobile-friendly design  
+# Akotet Shoes
 
-### 🔧 Admin Features
-- Secure admin panel (password protected on frontend)  
-- Add, update, or delete products  
-- Upload product images via Cloudinary  
-- View and manage customer orders  
-- Track payment references (`chapa_tx_ref`)  
-- Update order status (pending → paid → delivered)  
+Akotet Shoes is a small e-commerce project for selling premium leather shoes. It contains a React + Vite frontend and an Express + PostgreSQL backend with image uploads (Cloudinary) and payment integration (Chapa).
+
+**Repository layout**
+- `akotet-frontend/` — React app (Vite + Tailwind)
+- `akotet-backend/` — Node.js + Express API
+
+**Quick overview**
+- Browse products, filter by size, and sort by price.
+- Place orders and pay via Chapa integration (backend).
+- Admin panel for managing products and orders (frontend-protected).
 
 ---
 
-## 🛠️ Tech Stack
-
-### **Frontend**
-- React + Vite  
-- Tailwind CSS  
-- Axios  
-
-### **Backend**
-- Node.js  
-- Express  
-- PostgreSQL  
-- Cloudinary (image upload)  
-- Chapa Payment API  
-- CORS  
-
+**Features**
+- **User:** product listing, search by code, size filter, price sorting, checkout with Chapa.
+- **Admin:** add/update/delete products, image uploads via Cloudinary, view/manage orders and payment references.
 
 ---
 
-## 🗄️ Database Schema
+**Tech stack**
+- Frontend: React, Vite, Tailwind CSS, Axios
+- Backend: Node.js, Express
+- Database: PostgreSQL
+- Storage: Cloudinary
+- Payments: Chapa
 
-Akotet Shoes uses PostgreSQL with two main tables:
+---
+
+**Local setup (Windows / PowerShell)**
+
+Prerequisites:
+- Node.js (LTS)
+- npm (comes with Node)
+- PostgreSQL
+
+1) Clone the repo
+
+```powershell
+git clone https://github.com/dawit-yitbarek/akotet-shoes.git
+cd akotet-shoes
+```
+
+2) Backend
+
+```powershell
+cd akotet-backend
+npm install
+```
+
+Create a `.env` file in `akotet-backend/` with the following variables (example names):
+
+```env
+DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DATABASE
+FRONTEND_URL=http://localhost:5173
+BACKEND_URL=http://localhost:5000
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
+CHAPA_API_SECRET=your_chapa_api_key
+PORT=5000
+```
+
+Start backend:
+
+```powershell
+node server.js
+```
+
+If you use `nodemon` for development:
+
+```powershell
+npx nodemon server.js
+```
+
+3) Frontend
+
+```powershell
+cd ..\akotet-frontend
+npm install
+```
+
+Create a `.env` file in `akotet-frontend/` with:
+
+```env
+VITE_BACKEND_URL=http://localhost:5000
+VITE_FRONTEND_URL=http://localhost:5173
+VITE_ADMIN_PASSWORD=your_admin_password
+```
+
+Start frontend (Vite):
+
+```powershell
+npm run dev
+```
+
+Open the app in your browser at `http://localhost:5173` (Vite default).
+
+---
+
+**Database (example schema)**
+
+Below are simplified SQL examples used by the project. The real app may create tables programmatically.
 
 ```sql
-CREATE TABLE IF NOT EXISTS public.products
-(
+CREATE TABLE products (
   id SERIAL PRIMARY KEY,
   code INTEGER,
   price INTEGER NOT NULL,
@@ -58,8 +121,7 @@ CREATE TABLE IF NOT EXISTS public.products
   posted_at TIMESTAMP DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS public.orders
-(
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name VARCHAR,
   phone VARCHAR NOT NULL,
@@ -71,65 +133,20 @@ CREATE TABLE IF NOT EXISTS public.orders
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   image_url TEXT
 );
+```
 
+---
 
-⚙️ Installation & Setup
+**Environment notes & tips**
+- Make sure `DATABASE_URL` points to a reachable Postgres instance.
+- Ensure Cloudinary credentials are correct before uploading images.
+- Chapa API secret must be kept private; do not commit `.env` files.
 
-Clone the repository and install dependencies for backend and frontend:
+**Deployment**
+- Frontend can be deployed to Vercel, Netlify, or similar platforms (build step: `npm run build`).
+- Backend can be hosted on platforms that support Node (Heroku, render.com, DigitalOcean App Platform, etc.) with a managed Postgres add-on.
 
-git https://github.com/dawit-yitbarek/akotet-shoes.git
-cd akotet-shoes
+---
 
-
-📦 Backend Setup
-cd akotet-backend
-npm install
-
-Create a .env file inside /akotet-backend:
-
-DATABASE_URL=your_postgres_url
-FRONTEND_URL=your_frontend_url
-BACKEND_URL=your_backend_url
-CLOUDINARY_CLOUD_NAME=your_cloudinary_name
-CLOUDINARY_API_KEY=your_cloudinary_key
-CLOUDINARY_API_SECRET=your_cloudinary_secret
-CHAPA_API_SECRET=your_chapa_api_key
-PORT=port_number
-
-Run the backend:
-node server.js
-
-
-💻 Frontend Setup
-cd akotet-frontend
-npm install
-
-Create a .env file inside /akotet-frontend:
-
-VITE_BACKEND_URL=your_backend_url
-VITE_FRONTEND_URL=your_frontend_url
-VITE_ADMIN_PASSWORD=your_admin_passkey
-
-Run the frontend:
-npm run dev
-
-
-🌐 Deployment
-
-Frontend deployed at:
-https://akotet-shoes.vercel.app/
-
-
-📌 Future Improvements
-
-Add product categories and subcategories
-
-Add inventory/stock management
-
-Customer account system with order history
-
-Admin analytics dashboard
-
-Multi-image product galleries
-
-Discount and coupon system
+**Contact**
+- Repo owner: `dawit-yitbarek` (GitHub)
